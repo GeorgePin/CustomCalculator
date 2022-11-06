@@ -3,13 +3,12 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-const isProduction = process.env.NODE_ENV == "production";
-
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
-const config = {
+module.exports = {
   output: {
     path: path.resolve(__dirname, "dist"),
+    clean: true,
   },
   devServer: {
     open: true,
@@ -17,7 +16,7 @@ const config = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "index.html",
+      template: "./public/index.html",
     }),
     new CleanWebpackPlugin(),
     // Add your plugins here
@@ -31,11 +30,10 @@ const config = {
         exclude: ["/node_modules/"],
       },
       {
-        loader: "file-loader",
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        type: "asset",
-        options: {
-          name: "[name].[ext]",
+        test: /\.(png|jpg)/,
+        type: "asset/resource",
+        generator: {
+          filename: "./src/static/images/[name][ext][query]",
         },
       },
       {
@@ -48,15 +46,6 @@ const config = {
     ],
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".jsx", ".js", "..."],
+    extensions: [".tsx", ".ts", ".jsx", ".js"],
   },
-};
-
-module.exports = () => {
-  if (isProduction) {
-    config.mode = "production";
-  } else {
-    config.mode = "development";
-  }
-  return config;
 };

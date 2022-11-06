@@ -8,7 +8,9 @@
     "declaration": true,
     "moduleResolution": "node",
     "outDir": "./dist",
-    "rootDir": "."
+    "rootDir": ".",
+    "skipLibCheck": true
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["public", "node_modules"]
 }
